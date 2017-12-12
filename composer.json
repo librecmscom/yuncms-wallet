@@ -1,0 +1,46 @@
+{
+  "name": "yuncms/yuncms-wallet",
+  "description": "The wallet module for yuncms.",
+  "keywords": [
+    "yii",
+    "yii2-wallet",
+    "wallet"
+  ],
+  "type": "yii2-extension",
+  "license": "MIT",
+  "require": {
+    "yiisoft/yii2": "~2.0.6",
+    "yuncms/yuncms-user": "~2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "yuncms\\wallet\\": ""
+    }
+  },
+  "extra": {
+    "yuncms": {
+      "name": "wallet",
+      "i18n": {
+        "class": "yii\\i18n\\PhpMessageSource",
+        "sourceLanguage": "en-US",
+        "basePath": "@yuncms/wallet/messages"
+      },
+      "migrationNamespace": "yuncms\\wallet\\migrations",
+      "backend": {
+        "class": "yuncms\\wallet\\backend\\Module"
+      },
+      "frontend": {
+        "class": "yuncms\\wallet\\frontend\\Module"
+      }
+    },
+    "branch-alias": {
+      "dev-master": "2.0.0-dev"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}
