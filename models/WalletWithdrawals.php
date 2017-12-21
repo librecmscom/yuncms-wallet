@@ -121,4 +121,38 @@ class WalletWithdrawals extends ActiveRecord
     {
         return new WalletWithdrawalsQuery(get_called_class());
     }
+
+    public function isRejected()
+    {
+        return $this->status == static::STATUS_REJECTED;
+    }
+
+    public function isDone()
+    {
+        return $this->status == static::STATUS_DONE;
+    }
+
+    public function isPending()
+    {
+        return $this->status == static::STATUS_PENDING;
+    }
+
+    /**
+     * 设置该提现已经打款
+     */
+    public function setDone()
+    {
+        return (bool)$this->updateAttributes(['confirmed_at' => time(), 'status' => static::STATUS_DONE]);
+    }
+
+    public function setRejected()
+    {
+        if((bool)$this->updateAttributes(['confirmed_at' => time(), 'status' => static::STATUS_REJECTED])){
+            //退款
+            if (!$this->getModule()->wallet($this->user_id, $this->currency, $this->money, Yii::t('wallet', 'Withdrawals Rejected'))) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
