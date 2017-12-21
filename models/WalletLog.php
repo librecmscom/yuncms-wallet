@@ -3,7 +3,10 @@
 namespace yuncms\wallet\models;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\db\BaseActiveRecord;
 
 /**
  * This is the model class for table "{{%wallet_log}}".
@@ -29,14 +32,34 @@ class WalletLog extends ActiveRecord
     }
 
     /**
+     * 定义行为
+     */
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['timestamp'] = [
+            'class' => TimestampBehavior::className(),
+            'attributes' => [
+                BaseActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+            ]
+        ];
+        $behaviors['user'] = [
+            'class' => BlameableBehavior::className(),
+            'attributes' => [
+                ActiveRecord::EVENT_BEFORE_INSERT => ['user_id']
+            ],
+        ];
+        return $behaviors;
+    }
+
+    /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['wallet_id', 'type', 'created_at'], 'integer'],
+            [['wallet_id', 'type'], 'integer'],
             [['money'], 'number'],
-            [['created_at'], 'required'],
             [['action'], 'string', 'max' => 50],
             [['msg'], 'string', 'max' => 255],
             [['wallet_id'], 'exist', 'skipOnError' => true, 'targetClass' => Wallet::className(), 'targetAttribute' => ['wallet_id' => 'id']],

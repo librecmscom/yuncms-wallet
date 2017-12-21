@@ -3,6 +3,8 @@
 namespace yuncms\wallet\models;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yuncms\user\models\User;
 
@@ -33,16 +35,33 @@ class WalletWithdrawals extends ActiveRecord
     }
 
     /**
+     * 定义行为
+     */
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['timestamp'] = [
+            'class' => TimestampBehavior::className(),
+        ];
+        $behaviors['user'] = [
+            'class' => BlameableBehavior::className(),
+            'attributes' => [
+                ActiveRecord::EVENT_BEFORE_INSERT => ['user_id']
+            ],
+        ];
+        return $behaviors;
+    }
+
+    /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['user_id', 'bankcard_id', 'status', 'confirmed_at', 'created_at', 'updated_at'], 'integer'],
-            [['currency', 'created_at', 'updated_at'], 'required'],
+            [[ 'bankcard_id', 'status', 'confirmed_at'], 'integer'],
+            [['currency'], 'required'],
             [['money'], 'number'],
             [['currency'], 'string', 'max' => 10],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['bankcard_id'], 'exist', 'skipOnError' => true, 'targetClass' => WalletBankcard::className(), 'targetAttribute' => ['bankcard_id' => 'id']],
         ];
     }
