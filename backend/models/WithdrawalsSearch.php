@@ -5,12 +5,12 @@ namespace yuncms\wallet\backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use yuncms\wallet\models\Withdrawals;
+use yuncms\wallet\models\WalletWithdrawals;
 
 /**
  * WithdrawalsSearch represents the model behind the search form about `yuncms\wallet\models\Withdrawals`.
  */
-class WithdrawalsSearch extends Withdrawals
+class WithdrawalsSearch extends WalletWithdrawals
 {
     /**
      * @inheritdoc
@@ -42,7 +42,7 @@ class WithdrawalsSearch extends Withdrawals
      */
     public function search($params)
     {
-        $query = Withdrawals::find();
+        $query = WalletWithdrawals::find();
 
         // add conditions that should always apply here
 
@@ -86,9 +86,9 @@ class WithdrawalsSearch extends Withdrawals
     {
         $dropDownList = [
             "status" => [
-                Withdrawals::STATUS_PENDING => Yii::t('wallet', 'Pending'),
-                Withdrawals::STATUS_REJECTED => Yii::t('wallet', 'Rejected'),
-                Withdrawals::STATUS_DONE => Yii::t('wallet', 'Done'),
+                WalletWithdrawals::STATUS_PENDING => Yii::t('wallet', 'Pending'),
+                WalletWithdrawals::STATUS_REJECTED => Yii::t('wallet', 'Rejected'),
+                WalletWithdrawals::STATUS_DONE => Yii::t('wallet', 'Done'),
             ],
         ];
         //根据具体值显示对应的值

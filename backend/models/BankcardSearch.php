@@ -5,12 +5,12 @@ namespace yuncms\wallet\backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use yuncms\wallet\models\Bankcard;
+use yuncms\wallet\models\WalletBankcard;
 
 /**
  * BankcardSearch represents the model behind the search form about `yuncms\wallet\models\Bankcard`.
  */
-class BankcardSearch extends Bankcard
+class BankcardSearch extends WalletBankcard
 {
     /**
      * @inheritdoc
@@ -41,7 +41,7 @@ class BankcardSearch extends Bankcard
      */
     public function search($params)
     {
-        $query = Bankcard::find();
+        $query = WalletBankcard::find();
 
         // add conditions that should always apply here
 

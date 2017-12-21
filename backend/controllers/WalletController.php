@@ -57,6 +57,7 @@ class WalletController extends Controller
      * Displays a single Wallet model.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionView($id)
     {
@@ -83,7 +84,7 @@ class WalletController extends Controller
             return ActiveForm::validate($model);
         }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Create success.'));
+            Yii::$app->getSession()->setFlash('success', Yii::t('wallet', 'Create success.'));
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -97,6 +98,7 @@ class WalletController extends Controller
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionUpdate($id)
     {
@@ -106,7 +108,7 @@ class WalletController extends Controller
             return ActiveForm::validate($model);
         }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Update success.'));
+            Yii::$app->getSession()->setFlash('success', Yii::t('wallet', 'Update success.'));
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -120,11 +122,15 @@ class WalletController extends Controller
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-        Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Delete success.'));
+        Yii::$app->getSession()->setFlash('success', Yii::t('wallet', 'Delete success.'));
         return $this->redirect(['index']);
     }
 
@@ -132,6 +138,10 @@ class WalletController extends Controller
      * Batch Delete existing Wallet model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionBatchDelete()
     {
@@ -140,9 +150,9 @@ class WalletController extends Controller
                 $model = $this->findModel($id);
                 $model->delete();
             }
-            Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Delete success.'));
+            Yii::$app->getSession()->setFlash('success', Yii::t('wallet', 'Delete success.'));
         } else {
-            Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Delete failed.'));
+            Yii::$app->getSession()->setFlash('success', Yii::t('wallet', 'Delete failed.'));
         }
         return $this->redirect(['index']);
     }
@@ -159,7 +169,7 @@ class WalletController extends Controller
         if (($model = Wallet::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException (Yii::t('app', 'The requested page does not exist.'));
+            throw new NotFoundHttpException (Yii::t('yii', 'The requested page does not exist.'));
         }
     }
 }

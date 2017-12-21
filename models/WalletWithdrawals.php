@@ -26,6 +26,10 @@ use yuncms\user\models\User;
  */
 class WalletWithdrawals extends ActiveRecord
 {
+    const STATUS_PENDING = 0b0;
+    const STATUS_REJECTED = 0b1;
+    const STATUS_DONE = 0b10;
+
     /**
      * @inheritdoc
      */
@@ -58,11 +62,20 @@ class WalletWithdrawals extends ActiveRecord
     public function rules()
     {
         return [
-            [[ 'bankcard_id', 'status', 'confirmed_at'], 'integer'],
+            [[ 'bankcard_id', 'confirmed_at'], 'integer'],
             [['currency'], 'required'],
             [['money'], 'number'],
             [['currency'], 'string', 'max' => 10],
             [['bankcard_id'], 'exist', 'skipOnError' => true, 'targetClass' => WalletBankcard::className(), 'targetAttribute' => ['bankcard_id' => 'id']],
+
+            ['money', 'integer',
+                'min' => $this->getModule()->withdrawalsMin,
+                'max' => $this->getAmount(),
+                'tooBig' => Yii::t('wallet', 'Insufficient money, please recharge.'),
+                'tooSmall' => Yii::t('wallet', 'The minimum extraction of withdrawals {num}.', ['num' => $this->getModule()->withdrawalsMin])],
+
+            ['status', 'default', 'value' => self::STATUS_PENDING],
+            ['status', 'in', 'range' => [self::STATUS_PENDING, self::STATUS_REJECTED, self::STATUS_DONE]],
         ];
     }
 

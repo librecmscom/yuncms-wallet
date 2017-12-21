@@ -3,17 +3,17 @@
 namespace yuncms\wallet\backend\controllers;
 
 use Yii;
+use yii\helpers\Url;
 use yii\web\Response;
+use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\bootstrap\ActiveForm;
 use yii\web\NotFoundHttpException;
-use yuncms\wallet\models\Withdrawals;
+use yuncms\wallet\models\WalletWithdrawals;
 use yuncms\wallet\backend\models\WithdrawalsSearch;
-use yii\web\Controller;
-use yii\helpers\Url;
 
 /**
- * WithdrawalsController implements the CRUD actions for Withdrawals model.
+ * WithdrawalsController implements the CRUD actions for WalletWithdrawals model.
  */
 class WithdrawalsController extends Controller
 {
@@ -36,11 +36,12 @@ class WithdrawalsController extends Controller
     }
 
     /**
-     * rejected the Withdrawals.
+     * rejected the WalletWithdrawals.
      *
      * @param int $id
      *
      * @return Response
+     * @throws NotFoundHttpException
      */
     public function actionRejected($id)
     {
@@ -51,11 +52,12 @@ class WithdrawalsController extends Controller
     }
 
     /**
-     * Confirms the Withdrawals.
+     * Confirms the WalletWithdrawals.
      *
      * @param int $id
      *
      * @return Response
+     * @throws NotFoundHttpException
      */
     public function actionConfirm($id)
     {
@@ -66,7 +68,7 @@ class WithdrawalsController extends Controller
     }
 
     /**
-     * Lists all Withdrawals models.
+     * Lists all WalletWithdrawals models.
      * @return mixed
      */
     public function actionIndex()
@@ -82,9 +84,10 @@ class WithdrawalsController extends Controller
     }
 
     /**
-     * Displays a single Withdrawals model.
+     * Displays a single WalletWithdrawals model.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionView($id)
     {
@@ -95,20 +98,20 @@ class WithdrawalsController extends Controller
     }
 
     /**
-     * Creates a new Withdrawals model.
+     * Creates a new WalletWithdrawals model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
         Url::remember('', 'actions-redirect');
-        $model = new Withdrawals();
+        $model = new WalletWithdrawals();
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($model);
         }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Create success.'));
+            Yii::$app->getSession()->setFlash('success', Yii::t('wallet', 'Create success.'));
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -118,10 +121,11 @@ class WithdrawalsController extends Controller
     }
 
     /**
-     * Updates an existing Withdrawals model.
+     * Updates an existing WalletWithdrawals model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionUpdate($id)
     {
@@ -132,7 +136,7 @@ class WithdrawalsController extends Controller
             return ActiveForm::validate($model);
         }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Update success.'));
+            Yii::$app->getSession()->setFlash('success', Yii::t('wallet', 'Update success.'));
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -142,22 +146,30 @@ class WithdrawalsController extends Controller
     }
 
     /**
-     * Deletes an existing Withdrawals model.
+     * Deletes an existing WalletWithdrawals model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-        Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Delete success.'));
+        Yii::$app->getSession()->setFlash('success', Yii::t('wallet', 'Delete success.'));
         return $this->redirect(['index']);
     }
 
     /**
-     * Batch Delete existing Withdrawals model.
+     * Batch Delete existing WalletWithdrawals model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionBatchDelete()
     {
@@ -166,26 +178,26 @@ class WithdrawalsController extends Controller
                 $model = $this->findModel($id);
                 $model->delete();
             }
-            Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Delete success.'));
+            Yii::$app->getSession()->setFlash('success', Yii::t('wallet', 'Delete success.'));
         } else {
-            Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Delete failed.'));
+            Yii::$app->getSession()->setFlash('success', Yii::t('wallet', 'Delete failed.'));
         }
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Withdrawals model based on its primary key value.
+     * Finds the WalletWithdrawals model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Withdrawals the loaded model
+     * @return WalletWithdrawals the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Withdrawals::findOne($id)) !== null) {
+        if (($model = WalletWithdrawals::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException (Yii::t('app', 'The requested page does not exist.'));
+            throw new NotFoundHttpException (Yii::t('yii', 'The requested page does not exist.'));
         }
     }
 }
