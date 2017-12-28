@@ -57,20 +57,27 @@ $this->params['breadcrumbs'][] = $this->title;
     <!-- Modal
     ================================================== -->
 <?php
-if (Yii::$app->hasModule('payment')):
-    $payment = new \yuncms\payment\models\Payment();
+if (Yii::$app->hasModule('trade')):
+    $gateways = [];
+    foreach (Yii::$app->payment->components as $id=>$component) {
+        $component= Yii::$app->payment->get($id);
+
+        $gateways[$component->id] = $component->title;
+    }
+
+    $payment = new \yuncms\trade\models\Trade();
     $form = ActiveForm::begin([
-        'action' => Url::toRoute(['/payment/default/index']),
+        'action' => Url::toRoute(['/trade/trade/create']),
     ]); ?>
     <?= Html::activeInput('hidden', $payment, 'currency', ['value' => '']) ?>
-    <?= Html::activeInput('hidden', $payment, 'pay_type', ['value' => \yuncms\payment\models\Payment::TYPE_RECHARGE]) ?>
+    <?= Html::activeInput('hidden', $payment, 'type', ['value' => '3']) ?>
     <?php Modal::begin([
     'options' => ['id' => 'recharge_modal'],
     'header' => Yii::t('wallet', 'Recharge'),
     'footer' => Html::button(Yii::t('wallet', 'Clean'), ['class' => 'btn btn-default', 'data-dismiss' => 'modal']) . Html::submitButton(Yii::t('wallet', 'Submit'), ['class' => 'btn btn-primary']),
 ]); ?>
-    <?= $form->field($payment, 'money'); ?>
-    <?= $form->field($payment, 'gateway')->inline(true)->radioList(ArrayHelper::map(Yii::$app->getModule('payment')->gateways, 'id', 'title')); ?>
+    <?= $form->field($payment, 'total_amount'); ?>
+    <?= $form->field($payment, 'gateway')->inline(true)->radioList($gateways); ?>
     <?php
     Modal::end();
     ActiveForm::end();
