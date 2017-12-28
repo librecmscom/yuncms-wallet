@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model yuncms\wallet\models\Withdrawals */
+/* @var $model yuncms\wallet\models\WalletWithdrawals */
 
 $this->title = Yii::t('wallet', 'Withdrawals');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('wallet', 'Withdrawals'), 'url' => ['index']];

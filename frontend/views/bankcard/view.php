@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model yuncms\wallet\models\BankCard */
+/* @var $model yuncms\wallet\models\WalletBankcard */
 
 $this->title = $model->number;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('wallet', 'Bankcards'), 'url' => ['index']];

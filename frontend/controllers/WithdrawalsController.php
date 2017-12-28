@@ -9,8 +9,8 @@ use yii\widgets\ActiveForm;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yuncms\wallet\models\Wallet;
-use yuncms\wallet\models\Withdrawals;
-use yuncms\wallet\models\WithdrawalsSearch;
+use yuncms\wallet\models\WalletWithdrawals;
+use yuncms\wallet\frontend\models\WithdrawalsSearch;
 
 /**
  * WithdrawalsController implements the CRUD actions for Withdrawals model.
@@ -37,7 +37,7 @@ class WithdrawalsController extends Controller
     }
 
     /**
-     * Lists all Withdrawals models.
+     * Lists all WalletWithdrawals models.
      * @return mixed
      */
     public function actionIndex()
@@ -52,9 +52,10 @@ class WithdrawalsController extends Controller
     }
 
     /**
-     * Displays a single Withdrawals model.
+     * Displays a single WalletWithdrawals model.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionView($id)
     {
@@ -64,14 +65,14 @@ class WithdrawalsController extends Controller
     }
 
     /**
-     * Creates a new Withdrawals model.
+     * Creates a new WalletWithdrawals model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @param string $currency
      * @return mixed
      */
     public function actionCreate($currency)
     {
-        $model = new Withdrawals();
+        $model = new WalletWithdrawals();
         $model->currency = $currency;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -86,15 +87,15 @@ class WithdrawalsController extends Controller
     }
 
     /**
-     * Finds the Withdrawals model based on its primary key value.
+     * Finds the WalletWithdrawals model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Withdrawals the loaded model
+     * @return WalletWithdrawals the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Withdrawals::findOne($id)) !== null) {
+        if (($model = WalletWithdrawals::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

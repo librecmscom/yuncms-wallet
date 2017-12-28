@@ -3,11 +3,11 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\bootstrap\ActiveForm;
-use yuncms\wallet\models\Bankcard;
-use yuncms\wallet\models\Withdrawals;
+use yuncms\wallet\models\WalletBankcard;
+use yuncms\wallet\models\WalletWithdrawals;
 
 /* @var $this yii\web\View */
-/* @var $model Bankcard */
+/* @var $model WalletBankcard */
 
 $this->title = Yii::t('wallet', 'Withdrawals');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('wallet', 'Withdrawals'), 'url' => ['index']];
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
     <div class="col-md-2">
-        <?= $this->render('@yuncms/user/views/_profile_menu') ?>
+        <?= $this->render('@yuncms/user/frontend/views/_profile_menu') ?>
     </div>
     <div class="col-md-10">
         <h2 class="h3 profile-title">
@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'currency', ['inputOptions' => ['disabled' => true]]) ?>
 
                 <?= $form->field($model, 'bankcard_id')->dropDownList(
-                    ArrayHelper::map(Bankcard::find()->select(['id', "CONCAT(bank,' - ',username,' - ',number) as name"])->where(['user_id' => Yii::$app->user->id])->asArray()->all(), 'id', 'name')
+                    ArrayHelper::map(WalletBankcard::find()->select(['id', "CONCAT(bank,' - ',username,' - ',number) as name"])->where(['user_id' => Yii::$app->user->id])->asArray()->all(), 'id', 'name')
                 ); ?>
                 <?= $form->field($model, 'money'); ?>
 

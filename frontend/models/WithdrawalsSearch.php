@@ -5,11 +5,12 @@ namespace yuncms\wallet\frontend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yuncms\wallet\models\WalletWithdrawals;
 
 /**
  * WithdrawalsSearch represents the model behind the search form about `yuncms\user\models\Withdrawals`.
  */
-class WithdrawalsSearch extends Withdrawals
+class WithdrawalsSearch extends WalletWithdrawals
 {
     /**
      * @inheritdoc
@@ -40,7 +41,7 @@ class WithdrawalsSearch extends Withdrawals
      */
     public function search($params)
     {
-        $query = Withdrawals::find()->orderBy(['updated_at' => SORT_DESC]);
+        $query = WalletWithdrawals::find()->orderBy(['updated_at' => SORT_DESC]);
 
         // add conditions that should always apply here
 

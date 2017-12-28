@@ -1,15 +1,16 @@
 <?php
 
-namespace yuncms\wallet\models;
+namespace yuncms\wallet\frontend\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yuncms\wallet\models\WalletBankcard;
 
 /**
  * BankCardSearch represents the model behind the search form about `yuncms\user\models\BankCard`.
  */
-class BankcardSearch extends Bankcard
+class BankcardSearch extends WalletBankcard
 {
     /**
      * @inheritdoc
@@ -40,7 +41,7 @@ class BankcardSearch extends Bankcard
      */
     public function search($params)
     {
-        $query = Bankcard::find()->where(['user_id' => Yii::$app->user->id]);
+        $query = WalletBankcard::find()->where(['user_id' => Yii::$app->user->id]);
 
         // add conditions that should always apply here
 

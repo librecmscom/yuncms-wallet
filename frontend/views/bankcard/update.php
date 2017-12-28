@@ -3,7 +3,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model yuncms\wallet\models\Bankcard */
+/* @var $model yuncms\wallet\models\WalletBankcard */
 
 $this->title = Yii::t('wallet', 'Update Bankcard: ', [
         'modelClass' => Yii::t('wallet', 'Bankcard'),
@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = Yii::t('wallet', 'Update');
 ?>
 <div class="row">
     <div class="col-md-2">
-        <?= $this->render('@yuncms/user/views/_profile_menu') ?>
+        <?= $this->render('@yuncms/user/frontend/views/_profile_menu') ?>
     </div>
     <div class="col-md-10">
         <h2 class="h3 profile-title">
